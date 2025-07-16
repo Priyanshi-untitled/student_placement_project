@@ -1,0 +1,85 @@
+CREATE DATABASE student_placement ;
+USE student_placement ;
+
+CREATE TABLE students( 
+  student_id INT PRIMARY KEY ,
+  name VARCHAR(50) ,
+  branch VARCHAR(50) ,
+  year INT ,
+  cgpa DECIMAL(3,2) 
+  );
+  
+CREATE TABLE skills(
+  skill_id INT PRIMARY KEY ,
+  skill_name VARCHAR(50) ,
+  student_id INT ,
+  FOREIGN KEY (student_id) REFERENCES students(student_id)
+  );
+  
+CREATE TABLE company (
+ company_id INT PRIMARY KEY ,
+ name VARCHAR(100) ,
+ roleOffer VARCHAR(100) ,
+ package DECIMAL(5,2)
+ );
+ 
+CREATE TABLE placement (
+  placement_id INT PRIMARY KEY ,
+  student_id INT ,
+  company_id INT ,
+  date_of_offer DATE ,
+  FOREIGN KEY (student_id) REFERENCES students(student_id) ,
+  FOREIGN KEY (company_id) REFERENCES company(company_id)
+  );
+  
+INSERT INTO students (student_id, name, branch, year, cgpa) VALUES 
+(1, 'Abhay', 'CSE', 2, 8.73),
+(2, 'Bhoomi', 'ECE', 3, 9.01),
+(3, 'Charu', 'CSE', 2, 8.89),
+(4, 'Deepak', 'CIVIL', 4, 7.68),
+(5, 'Gayatri', 'AI', 1, 9.03),
+(6, 'Kaushal', 'ECE', 3, 8.54),
+(7, 'Mayank', 'ELECTRICAL', 3, 8.98),
+(8, 'Priyanshi', 'CSE', 2, 9.56),
+(9, 'Rishabh', 'MECHANICAL', 4, 6.90),
+(10, 'Tanmay', 'CSE', 3, 8.94);
+
+INSERT INTO skills (skill_id, student_id, skill_name) VALUES
+(1, 1, 'Java'),
+(2, 1, 'SQL'),
+(3, 2, 'Python'),
+(4, 2, 'Data Structures'),
+(5, 3, 'HTML'),
+(6, 3, 'CSS'),
+(7, 4, 'AutoCAD'),
+(8, 4, 'Civil 3D'),
+(9, 5, 'Python'),
+(10, 5, 'AI Basics'),
+(11, 6, 'C'),
+(12, 6, 'C++'),
+(13, 7, 'Electronics'),
+(14, 7, 'Matlab'),
+(15, 8, 'Java'),
+(16, 8, 'DBMS'),
+(17, 9, 'Mechanical Design'),
+(18, 9, 'SolidWorks'),
+(19, 10, 'SQL'),
+(20, 10, 'OOPs');
+
+INSERT INTO company (company_id, name, roleOffer, package) VALUES
+(1, 'Infosys', 'Software Developer', 6.5),
+(2, 'Google', 'SWE Intern', 15.0),
+(3, 'L&T', 'Civil Engineer', 7.2),
+(4, 'TCS', 'Data Analyst', 5.8),
+(5, 'BHEL', 'Electrical Engineer', 7.9),
+(6, 'Amazon', 'Backend Developer', 14.2),
+(7, 'Bosch', 'Mechanical Engineer', 8.1);
+
+INSERT INTO placement (placement_id, student_id, company_id, date_of_offer) VALUES
+(1, 1, 1, '2025-01-12'),   -- Abhay → Infosys(Show student with company for quick recap)
+(2, 2, 2, '2025-02-05'),   -- Bhoomi → Google
+(3, 4, 3, '2025-03-10'),   -- Deepak → L&T (Civil)
+(4, 6, 4, '2025-03-18'),   -- Kaushal → TCS
+(5, 7, 5, '2025-04-02'),   -- Mayank → BHEL
+(6, 8, 6, '2025-04-15'),   -- Priyanshi → Amazon
+(7, 9, 7, '2025-04-20');   -- Rishabh → Bosch

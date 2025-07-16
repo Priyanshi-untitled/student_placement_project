@@ -1,0 +1,35 @@
+-- Query 1: List of all students with their placement details
+-- used short form like s and c 
+SELECT s.name AS student_name, s.branch, c.name AS company_name, c.roleOffer
+FROM students s
+LEFT JOIN placement p ON s.student_id = p.student_id
+LEFT JOIN company c ON p.company_id = c.company_id;
+
+-- Query 2: Show all unplaced students
+SELECT s.name, s.branch
+FROM students s
+LEFT JOIN placement p ON s.student_id = p.student_id
+WHERE p.student_id IS NULL;
+
+-- Query 3: Count number of skills each student has, and show if placed or not
+SELECT 
+  s.name, 
+  COUNT(sk.skill_id) AS skill_count,
+  CASE 
+    WHEN MAX(p.placement_id) IS NOT NULL THEN 'Placed'
+    ELSE 'Not Placed'
+  END AS placement_status
+FROM students s
+LEFT JOIN skills sk ON s.student_id = sk.student_id
+LEFT JOIN placement p ON s.student_id = p.student_id
+GROUP BY s.student_id;
+
+-- Query 4: List students who got placed in companies offering more than 10 LPA
+SELECT 
+  s.name AS student_name,
+  c.name AS company_name,
+  c.package
+FROM students s
+JOIN placement p ON s.student_id = p.student_id
+JOIN company c ON p.company_id = c.company_id
+WHERE c.package > 10;
